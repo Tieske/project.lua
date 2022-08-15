@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Project.lua</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#1_1_Why_">1.1 Why? </a></li>
+<li><a href="#1_2_Getting_started">1.2 Getting started </a></li>
+<li><a href="#1_3_Workflows">1.3 Workflows </a></li>
+<li><a href="#1_4_The_Makefile">1.4 The Makefile </a></li>
+<li><a href="#1_5_Choices_explained">1.5 Choices explained </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="">
+  <li><strong>1. Introduction</strong></li>
+  <li><a href="../topics/02-advanced.md.html">2. advanced topic</a></li>
+  <li><a href="../topics/CHANGELOG.md.html">Changelog</a></li>
+  <li><a href="../topics/LICENSE.html">LICENSE</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../index.html">libname</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example1.lua.html">example1.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>1. Introduction</h1>
+
+<p>A project template to remove the tedious repetitive work of creating Lua modules</p>
+
+<p><a name="1_1_Why_"></a></p>
+<h2>1.1 Why?</h2>
+
+<p>Creating well structured projects, including CI, documentation, sane defaults
+for testing, linting, etc. Are a lot of work to set up. Even if you've done it
+before it requires copying config files, updating all details, removing any
+project specifics and what not.</p>
+
+<p>This template is <strong>very</strong> opinionated. It assumes a.o.;</p>
+
+<ul>
+    <li>LuaRocks for distribution</li>
+    <li>Busted for testing</li>
+    <li>LuaCheck for linting</li>
+    <li>Ldoc for documentation generation.</li>
+    <li>Github for code repositories</li>
+    <li>Github Actions for CI</li>
+</ul>
+
+<p>The reasons behind many choices and settings can <a href="#Choices_explained">be found below</a>.</p>
+
+<p><a name="1_2_Getting_started"></a></p>
+<h2>1.2 Getting started</h2>
+
+<p>Here's a list of things to do when using this template:</p>
+
+<ol>
+    <li>pick a name for your project. Check on Github and LuaRocks that the name is available.
+    A common pattern for naming is to use a <code>.lua</code> extension on Github, and the plain
+    name for LuaRocks and when using <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>. So for this template:</li>
+</ol>
+
+
+<pre>
+- Github (<span class="backtick"><code>project.lua</code></span>): <span class="string">"https://github.com/Tieske/<code>project.lua</code>.git"</span>
+- LuaRocks (<span class="backtick"><code>project</code></span>): <span class="string">"luarocks install <code>project</code>"</span>
+- Lua (<span class="backtick"><code>project</code></span>): "<span class="keyword">local</span> prj = <span class="global">require</span> <span class="string">'<code>project</code>'</span>
+</pre>
+
+<p>2. something else</p>
+
+<p><a name="1_3_Workflows"></a></p>
+<h2>1.3 Workflows</h2>
+
+<p>The project assumes some specific workflows:</p>
+
+<ul>
+    <li><p>Documentation is rendered only upon a release (otherwise the online docs would reflect the
+    current development branch, instead of the latest release).</p></li>
+    <li><p>PR's should include documentation changes and an entry in the
+    <a href="changelog.md.html"><code>Changelog.md</code></a> file.</p></li>
+</ul>
+
+
+<p><a name="1_4_The_Makefile"></a></p>
+<h2>1.4 The Makefile</h2>
+
+<p>The Makefile has a number of targets defined:</p>
+
+<ul>
+    <li><code>all</code>: (the default) will test, lint and build the docs</li>
+    <li><code>install</code>: will use LuaRocks to install the package from the currently checked out code</li>
+    <li><code>clean</code>: will the clean the repo, remove generated artifacts and restore the docs to
+    the last committed version (docs should be rendered only when releasing).</li>
+    <li><code>test</code>: will run the test suite using Busted, and generate the LuaCov coverage report.</li>
+    <li><code>testinst</code>: the same as <code>test</code>, except that it will first install the module, and it will
+    disable the local source tree. This provides a better test (since it includes the rockspec
+    install), but will change the locally installed LuaRocks tree.</li>
+    <li><code>lint</code>: will lint the Lua code files (using LuaCheck) as well as the rockspecs (using
+    LuaRocks).</li>
+    <li><code>doc</code>: will re-render the docs (will remove the existing docs first so use this over the
+    <code>ldoc .</code> command to prevent orphaned files in the docs tree).</li>
+    <li><code>dev</code> will install the required development dependencies using LuaRocks (busted, luacheck,
+    ldoc, and luacov).</li>
+</ul>
+
+<p><a name="1_5_Choices_explained"></a></p>
+<h2>1.5 Choices explained</h2>
+
+<h3>1.5.1 <code>./src</code> directory</h3>
+
+<p>The test engine (busted) will by default put this location in the search path, and put it
+first. This ensures you're testing the development code and not some older installed version.</p>
+
+<h3>1.5.2 <code>scm-1</code> rockspec</h3>
+
+<p>The <code>scm</code> rockspec is a development version, so targetting the latest <code>main</code> branch (or
+<code>master</code>). This means that:
+- the rockspec is updated in PR's (files added/removed are also added/removed from the
+  rockspec)
+- when a change to the <code>scm</code> rockspec is merged, the updated <code>scm</code> rockspec should be
+  uploaded to LuaRocks to replace the previous version.
+- the revision of the rockspec (the <code>1</code> in <code>scm-1</code>) is never updated</p>
+
+<h3>1.5.3 the main modules is called <code>init.lua</code>.</h3>
+
+<p>Though this might seem cumbersome for a small module, the problem is that it cannot be
+changed later. Hence better safe than sorry. It will also ensure that the file tree remains
+clean, everything in a single folder.</p>
+
+<p>If you start with <code>project.lua</code> instead of <code>project/init.lua</code>, and at some point you want
+to change. The installation procedure will typically not remove the previous versions'
+<code>project.lua</code> file, it will just add <code>project/init.lua</code>. Which will lead to both files
+being in your file tree, and then typically the one without <code>init</code> will have precedence over
+the other. So the new version of the module will be "unreachable", leading to all sorts of
+unpredictable behaviour.</p>
+
+<h3>1.5.4 License</h3>
+
+<p>The default license is the MIT license, since that is most common in the Lua eco-system,
+and used by the Lua distributions them selves.</p>
+
+<p>Update the <a href="../topics/LICENSE.html#">LICENSE</a> file if the default MIT license doesn't suit you. Make sure
+to use a format that is recognized by Github, such that when users click the
+<a href="../topics/LICENSE.html#">LICENSE</a> file, they <a href="https://github.com/Tieske/project.lua/blob/main/LICENSE">get a nice header</a>
+at the top explaining the basics of the license.</p>
+
+<p>Make sure to also update the license details in the code files, and in the <code>.rockspec</code> files.</p>
+
+
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2022-08-17 08:27:04 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
