@@ -18,21 +18,46 @@ This template is **very** opinionated. It assumes a.o.;
 - Github for code repositories
 - Github Actions for CI
 
-The reasons behind many choices and settings can [be found below](#Choices_explained).
+The reasons behind many choices and settings can [be found below](#1_5_Choices_explained).
 
 ## 1.2 Getting started
 
 Here's a list of things to do when using this template:
 
-1. pick a name for your project. Check on Github and LuaRocks that the name is available.
-   A common pattern for naming is to use a `.lua` extension on Github, and the plain
-   name for LuaRocks and when using `require`. So for this template:
+* pick a name for your project. Check on Github and LuaRocks that the name is available.
+  A common pattern for naming is to use a `.lua` extension on Github, and the plain
+  name for LuaRocks and when using `require`. So for this template:
 
     - Github (`project.lua`): "https://github.com/Tieske/`project.lua`.git"
     - LuaRocks (`project`): "luarocks install `project`"
-    - Lua (`project`): "local prj = require '`project`'
+    - Lua (`project`): "local prj = require '`project`'"
 
-2. something else
+
+* Go to the template on Github and create a new repo from it, and clone it locally.
+
+* Update "`README.md`"
+
+* Rename "`./src/project`" to "`./src/[package-name]`"
+
+* Rename "`project-scm-1.rockspec`" to "`[package-name]-scm-1`".
+
+* Edit the rockspec;
+
+    - update the details at the top,
+    - update the `description.summary` field
+    - update the `description.detailed` field
+    - update the list at `build.modules` by replacing "`project`" with the package-name
+
+
+* Update the "`config.ld`" file; fields `project`, `title`, and `description`
+
+* Update name and copyright info in "`LICENSE`" and in "`./src/[package-name]/init.lua`"
+
+* In "`CHANGELOG.md`" replace all "`[package-name]`" with the actual name.
+
+* In "`.luacov`" replace "`project.*`" with "`[package-name].*`".
+
+* Clear the files in "`./doc_topics/`"
 
 ## 1.3 Workflows
 
@@ -51,37 +76,48 @@ The Makefile has a number of targets defined:
 
 - `all`: (the default) will test, lint and build the docs
 - `install`: will use LuaRocks to install the package from the currently checked out code
+- `uninstall`: will use LuaRocks to uninstall (all versions of) the package
 - `clean`: will the clean the repo, remove generated artifacts and restore the docs to
   the last committed version (docs should be rendered only when releasing).
 - `test`: will run the test suite using Busted, and generate the LuaCov coverage report.
-- `testinst`: the same as `test`, except that it will first install the module, and it will
-   disable the local source tree. This provides a better test (since it includes the rockspec
-   install), but will change the locally installed LuaRocks tree.
+- `testinst`: the same as `test`, except that it will first uninstall and install the module,
+   and it will disable the local source tree. This provides a better test (since it includes
+   the rockspec install), but will change the locally installed LuaRocks tree.
 - `lint`: will lint the Lua code files (using LuaCheck) as well as the rockspecs (using
   LuaRocks).
-- `doc`: will re-render the docs (will remove the existing docs first so use this over the
+- `doc`: will re-render the docs (will remove the existing docs first, so use this over the
   `ldoc .` command to prevent orphaned files in the docs tree).
 - `dev` will install the required development dependencies using LuaRocks (busted, luacheck,
   ldoc, and luacov).
 
+
 ## 1.5 Choices explained
 
-### 1.5.1 `./src` directory
+### 1.5.1 "`./src`" directory
 
-The test engine (busted) will by default put this location in the search path, and put it
+The test engine (Busted) will by default put this location in the search path, and put it
 first. This ensures you're testing the development code and not some older installed version.
 
-### 1.5.2 `scm-1` rockspec
 
-The `scm` rockspec is a development version, so targetting the latest `main` branch (or
-`master`). This means that:
+### 1.5.2 "`scm-1`" rockspec
+
+The "`scm`" rockspec is a development version, so targetting the latest "`main`" branch (or
+"`master`"). This means that:
+
 - the rockspec is updated in PR's (files added/removed are also added/removed from the
   rockspec)
-- when a change to the `scm` rockspec is merged, the updated `scm` rockspec should be
-  uploaded to LuaRocks to replace the previous version.
-- the revision of the rockspec (the `1` in `scm-1`) is never updated
+- when a change to the "`scm`" rockspec is merged, the updated "`scm`" rockspec should be
+  uploaded to LuaRocks (forced upload) to replace the previous version.
+- the revision of the rockspec (the "`1`" in "`scm-1`") should never be updated
 
-### 1.5.3 the main modules is called `init.lua`.
+*NOTE*: the rockspec specifes to also distribute the documentation with the package. Users
+can locally do
+
+    luarocks doc [package-name]
+
+to access the locally installed documentation.
+
+### 1.5.3 the main modules is called "`init.lua`".
 
 Though this might seem cumbersome for a small module, the problem is that it cannot be
 changed later. Hence better safe than sorry. It will also ensure that the file tree remains
@@ -93,6 +129,7 @@ to change. The installation procedure will typically not remove the previous ver
 being in your file tree, and then typically the one without `init` will have precedence over
 the other. So the new version of the module will be "unreachable", leading to all sorts of
 unpredictable behaviour.
+
 
 ### 1.5.4 License
 
@@ -107,3 +144,84 @@ at the top explaining the basics of the license.
 Make sure to also update the license details in the code files, and in the `.rockspec` files.
 
 
+### 1.5.5 The "`README.md`"
+
+The readme is minimalistic. If it were added to the doc generation, then many links would either
+in the docs, or on Github not be rendered properly. Hence it includes as little as possible to
+prevent duplication. And any relevant info should be added as a document in `./doc_topics`.
+
+
+### 1.5.6 Documentation settings in "`config.ld`"
+
+Source code documentation is parsed from `./src/`. Whilst the manual is generated from
+`./doc_topics/`, and both the license and changelog are included in the docs.
+
+The manual files will be added to the ToC in alphabetical order. Hence the manual files
+have a number prefix to force the order. The actual titles will be taken from the contents
+as long as they use Markdown headings (either `#` or `##` prefix)
+
+
+### 1.5.7 Test coverage settings in "`.luacov`"
+
+This files lists the source files to include in the coverage reporting. By default the report
+is generated after the test run. See also the "`.busted`" file, which specifies to use LuaCov.
+
+
+### 1.5.8 Lua linter rules by LuaCheck in "`.luacheck`"
+
+See the LuaCheck documentation for exact details.
+
+
+### 1.5.9 Git files in  "`.gitignore`"
+
+This is the default set from Github for Lua. But adds;
+
+- `*.rock` such that all packed rocks will be excluded
+- `*.stats.out`, `*.report.out`; the LuaCov output files
+
+
+### 1.5.9 Whitespace configuration in  "`.editorconfig`"
+
+This defines per file-type the whitespace settings for editors to use.
+
+
+### 1.5.10 Test output settings  "`.busted`"
+
+Since when testing we do not care about successes typically, only about failures, the
+defaults are quite verbose. If it succeeds we can ignore, if it fails, we have the details
+we need.
+
+It also includes coverage testing by default (Busted uses LuaCov).
+
+
+### 1.5.11 The tests in "`./spec/`"
+
+This is the default location for Busted to check for tests. Loading all Lua files
+with a pattern "`*_spec.lua`". The test files will be run in sorted order, hence
+the files are prefixed with digits to force a deterministic order when testing.
+
+
+### 1.5.12 Published rockspecs in  "`./rockspecs/`"
+
+This is an empty folder where published rockspecs can be added. See instructions at the top
+of "`CHANGELOG.md`".
+
+
+### 1.5.13 Documentation in/from  "`./docs`", "`./doc_topics`", and "`./examples`"
+
+The documentation is generated by Ldoc. The output is written to "`./docs/`", so on Github,
+the "pages" feature can be configured to point to the "`main`" branch, and the "`./docs/`" folder.
+
+As input for the documentation there will be;
+
+- the parsed info from the source files,
+- the manual written documentation in "`./doc_topics/`",
+- any examples; "`*.lua`" files in "`./examples/`"
+
+It is advised to at least have 1 file in `./doc_topics`, to contain more generic information
+that could also go in the readme file. Adding it here has the benefit of creating standalone
+documentation that will be distributed with the package (including the readme in the docs would
+add web-links to the docs, and it would not be standalone anymore).
+
+The `doc_topics` and `examples` can be deleted if not needed, it will require some adjustments
+to the Ldoc config file "`./config.ld`".

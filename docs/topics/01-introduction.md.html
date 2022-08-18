@@ -81,27 +81,51 @@ project specifics and what not.</p>
     <li>Github Actions for CI</li>
 </ul>
 
-<p>The reasons behind many choices and settings can <a href="#Choices_explained">be found below</a>.</p>
+<p>The reasons behind many choices and settings can <a href="#1_5_Choices_explained">be found below</a>.</p>
 
 <p><a name="1_2_Getting_started"></a></p>
 <h2>1.2 Getting started</h2>
 
 <p>Here's a list of things to do when using this template:</p>
 
-<ol>
+<ul>
     <li>pick a name for your project. Check on Github and LuaRocks that the name is available.
     A common pattern for naming is to use a <code>.lua</code> extension on Github, and the plain
     name for LuaRocks and when using <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>. So for this template:</li>
-</ol>
+</ul>
 
 
 <pre>
 - Github (<span class="backtick"><code>project.lua</code></span>): <span class="string">"https://github.com/Tieske/<code>project.lua</code>.git"</span>
 - LuaRocks (<span class="backtick"><code>project</code></span>): <span class="string">"luarocks install <code>project</code>"</span>
-- Lua (<span class="backtick"><code>project</code></span>): "<span class="keyword">local</span> prj = <span class="global">require</span> <span class="string">'<code>project</code>'</span>
+- Lua (<span class="backtick"><code>project</code></span>): <span class="string">"local prj = require '<code>project</code>'"</span>
 </pre>
 
-<p>2. something else</p>
+<p>* Go to the template on Github and create a new repo from it, and clone it locally.</p>
+
+<ul>
+    <li><p>Update "<code>README.md</code>"</p></li>
+    <li><p>Rename "<code>./src/project</code>" to "<code>./src/[package-name]</code>"</p></li>
+    <li><p>Rename "<code>project-scm-1.rockspec</code>" to "<code>[package-name]-scm-1</code>".</p></li>
+    <li><p>Edit the rockspec;</p></li>
+</ul>
+
+
+<pre>
+- update the details at the top,
+- update the <span class="backtick"><code>description.summary</code></span> field
+- update the <span class="backtick"><code>description.detailed</code></span> field
+- update the list at <span class="backtick"><code>build.modules</code></span> by replacing <span class="string">"<code>project</code>"</span> with the <span class="global">package</span>-name
+</pre>
+
+<p>* Update the "<code>config.ld</code>" file; fields <code>project</code>, <code>title</code>, and <code>description</code></p>
+
+<ul>
+    <li><p>Update name and copyright info in "<a href="../topics/LICENSE.html#">LICENSE</a>" and in "<code>./src/[package-name]/init.lua</code>"</p></li>
+    <li><p>In "<a href="../topics/CHANGELOG.md.html#">CHANGELOG.md</a>" replace all "<code>[package-name]</code>" with the actual name.</p></li>
+    <li><p>In "<code>.luacov</code>" replace "<code>project.*</code>" with "<code>[package-name].*</code>".</p></li>
+    <li><p>Clear the files in "<code>./doc_topics/</code>"</p></li>
+</ul>
 
 <p><a name="1_3_Workflows"></a></p>
 <h2>1.3 Workflows</h2>
@@ -124,39 +148,55 @@ project specifics and what not.</p>
 <ul>
     <li><code>all</code>: (the default) will test, lint and build the docs</li>
     <li><code>install</code>: will use LuaRocks to install the package from the currently checked out code</li>
+    <li><code>uninstall</code>: will use LuaRocks to uninstall (all versions of) the package</li>
     <li><code>clean</code>: will the clean the repo, remove generated artifacts and restore the docs to
     the last committed version (docs should be rendered only when releasing).</li>
     <li><code>test</code>: will run the test suite using Busted, and generate the LuaCov coverage report.</li>
-    <li><code>testinst</code>: the same as <code>test</code>, except that it will first install the module, and it will
-    disable the local source tree. This provides a better test (since it includes the rockspec
-    install), but will change the locally installed LuaRocks tree.</li>
+    <li><code>testinst</code>: the same as <code>test</code>, except that it will first uninstall and install the module,
+    and it will disable the local source tree. This provides a better test (since it includes
+    the rockspec install), but will change the locally installed LuaRocks tree.</li>
     <li><code>lint</code>: will lint the Lua code files (using LuaCheck) as well as the rockspecs (using
     LuaRocks).</li>
-    <li><code>doc</code>: will re-render the docs (will remove the existing docs first so use this over the
+    <li><code>doc</code>: will re-render the docs (will remove the existing docs first, so use this over the
     <code>ldoc .</code> command to prevent orphaned files in the docs tree).</li>
     <li><code>dev</code> will install the required development dependencies using LuaRocks (busted, luacheck,
     ldoc, and luacov).</li>
 </ul>
 
+
 <p><a name="1_5_Choices_explained"></a></p>
 <h2>1.5 Choices explained</h2>
 
-<h3>1.5.1 <code>./src</code> directory</h3>
+<h3>1.5.1 "<code>./src</code>" directory</h3>
 
-<p>The test engine (busted) will by default put this location in the search path, and put it
+<p>The test engine (Busted) will by default put this location in the search path, and put it
 first. This ensures you're testing the development code and not some older installed version.</p>
 
-<h3>1.5.2 <code>scm-1</code> rockspec</h3>
 
-<p>The <code>scm</code> rockspec is a development version, so targetting the latest <code>main</code> branch (or
-<code>master</code>). This means that:
-- the rockspec is updated in PR's (files added/removed are also added/removed from the
-  rockspec)
-- when a change to the <code>scm</code> rockspec is merged, the updated <code>scm</code> rockspec should be
-  uploaded to LuaRocks to replace the previous version.
-- the revision of the rockspec (the <code>1</code> in <code>scm-1</code>) is never updated</p>
+<h3>1.5.2 "<code>scm-1</code>" rockspec</h3>
 
-<h3>1.5.3 the main modules is called <code>init.lua</code>.</h3>
+<p>The "<code>scm</code>" rockspec is a development version, so targetting the latest "<code>main</code>" branch (or
+"<code>master</code>"). This means that:</p>
+
+<ul>
+    <li>the rockspec is updated in PR's (files added/removed are also added/removed from the
+    rockspec)</li>
+    <li>when a change to the "<code>scm</code>" rockspec is merged, the updated "<code>scm</code>" rockspec should be
+    uploaded to LuaRocks (forced upload) to replace the previous version.</li>
+    <li>the revision of the rockspec (the "<code>1</code>" in "<code>scm-1</code>") should never be updated</li>
+</ul>
+
+<p><em>NOTE</em>: the rockspec specifes to also distribute the documentation with the package. Users
+can locally do</p>
+
+
+<pre>
+luarocks doc [<span class="global">package</span>-name]
+</pre>
+
+<p>to access the locally installed documentation.</p>
+
+<h3>1.5.3 the main modules is called "<code>init.lua</code>".</h3>
 
 <p>Though this might seem cumbersome for a small module, the problem is that it cannot be
 changed later. Hence better safe than sorry. It will also ensure that the file tree remains
@@ -168,6 +208,7 @@ to change. The installation procedure will typically not remove the previous ver
 being in your file tree, and then typically the one without <code>init</code> will have precedence over
 the other. So the new version of the module will be "unreachable", leading to all sorts of
 unpredictable behaviour.</p>
+
 
 <h3>1.5.4 License</h3>
 
@@ -182,13 +223,98 @@ at the top explaining the basics of the license.</p>
 <p>Make sure to also update the license details in the code files, and in the <code>.rockspec</code> files.</p>
 
 
+<h3>1.5.5 The "<code>README.md</code>"</h3>
+
+<p>The readme is minimalistic. If it were added to the doc generation, then many links would either
+in the docs, or on Github not be rendered properly. Hence it includes as little as possible to
+prevent duplication. And any relevant info should be added as a document in <code>./doc_topics</code>.</p>
+
+
+<h3>1.5.6 Documentation settings in "<code>config.ld</code>"</h3>
+
+<p>Source code documentation is parsed from <code>./src/</code>. Whilst the manual is generated from
+<code>./doc_topics/</code>, and both the license and changelog are included in the docs.</p>
+
+<p>The manual files will be added to the ToC in alphabetical order. Hence the manual files
+have a number prefix to force the order. The actual titles will be taken from the contents
+as long as they use Markdown headings (either <code>#</code> or <code>##</code> prefix)</p>
+
+
+<h3>1.5.7 Test coverage settings in "<code>.luacov</code>"</h3>
+
+<p>This files lists the source files to include in the coverage reporting. By default the report
+is generated after the test run. See also the "<code>.busted</code>" file, which specifies to use LuaCov.</p>
+
+
+<h3>1.5.8 Lua linter rules by LuaCheck in "<code>.luacheck</code>"</h3>
+
+<p>See the LuaCheck documentation for exact details.</p>
+
+
+<h3>1.5.9 Git files in  "<code>.gitignore</code>"</h3>
+
+<p>This is the default set from Github for Lua. But adds;</p>
+
+<ul>
+    <li><code>*.rock</code> such that all packed rocks will be excluded</li>
+    <li><code>*.stats.out</code>, <code>*.report.out</code>; the LuaCov output files</li>
+</ul>
+
+
+<h3>1.5.9 Whitespace configuration in  "<code>.editorconfig</code>"</h3>
+
+<p>This defines per file-type the whitespace settings for editors to use.</p>
+
+
+<h3>1.5.10 Test output settings  "<code>.busted</code>"</h3>
+
+<p>Since when testing we do not care about successes typically, only about failures, the
+defaults are quite verbose. If it succeeds we can ignore, if it fails, we have the details
+we need.</p>
+
+<p>It also includes coverage testing by default (Busted uses LuaCov).</p>
+
+
+<h3>1.5.11 The tests in "<code>./spec/</code>"</h3>
+
+<p>This is the default location for Busted to check for tests. Loading all Lua files
+with a pattern "<code>*_spec.lua</code>". The test files will be run in sorted order, hence
+the files are prefixed with digits to force a deterministic order when testing.</p>
+
+
+<h3>1.5.12 Published rockspecs in  "<code>./rockspecs/</code>"</h3>
+
+<p>This is an empty folder where published rockspecs can be added. See instructions at the top
+of "<a href="../topics/CHANGELOG.md.html#">CHANGELOG.md</a>".</p>
+
+
+<h3>1.5.13 Documentation in/from  "<code>./docs</code>", "<code>./doc_topics</code>", and "<code>./examples</code>"</h3>
+
+<p>The documentation is generated by Ldoc. The output is written to "<code>./docs/</code>", so on Github,
+the "pages" feature can be configured to point to the "<code>main</code>" branch, and the "<code>./docs/</code>" folder.</p>
+
+<p>As input for the documentation there will be;</p>
+
+<ul>
+    <li>the parsed info from the source files,</li>
+    <li>the manual written documentation in "<code>./doc_topics/</code>",</li>
+    <li>any examples; "<code>*.lua</code>" files in "<code>./examples/</code>"</li>
+</ul>
+
+<p>It is advised to at least have 1 file in <code>./doc_topics</code>, to contain more generic information
+that could also go in the readme file. Adding it here has the benefit of creating standalone
+documentation that will be distributed with the package (including the readme in the docs would
+add web-links to the docs, and it would not be standalone anymore).</p>
+
+<p>The <code>doc_topics</code> and <code>examples</code> can be deleted if not needed, it will require some adjustments
+to the Ldoc config file "<code>./config.ld</code>".</p>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2022-08-17 08:27:04 </i>
+<i style="float:right;">Last updated 2022-08-18 19:48:42 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

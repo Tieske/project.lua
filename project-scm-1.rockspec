@@ -2,7 +2,7 @@ local package_name = "project"
 local package_version = "scm"
 local rockspec_revision = "1"
 local github_account_name = "Tieske"
-local github_repo_name = "homie.lua"
+local github_repo_name = package_name..".lua"
 
 
 package = package_name

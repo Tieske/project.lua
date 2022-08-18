@@ -1,4 +1,11 @@
 
+# SCM rockspec label; scm/cvs/dev
+SCM_LABEL:=$(shell cat *.rockspec | grep "local package_version" | sed "s/ //g" | sed "s/localpackage_version=//g" | sed "s/\"//g")
+ROCK_REV:=$(shell cat *.rockspec | grep "local rockspec_revision" | sed "s/ //g" | sed "s/localrockspec_revision=//g" | sed "s/\"//g")
+ROCK_NAME:=$(shell cat *.rockspec | grep "local package_name" | sed "s/ //g" | sed "s/localpackage_name=//g" | sed "s/\"//g")
+ROCKSPEC:=${ROCK_NAME}-${SCM_LABEL}-${ROCK_REV}.rockspec
+TAB=$(shell printf "\t")
+
 
 # dev/test dependencies; versions can be pinned. Example: "ldoc 1.4.6"
 DEV_ROCKS = "busted" "luacheck" "ldoc" "luacov"
@@ -7,6 +14,12 @@ all: test lint doc
 
 install: luarocks
 	luarocks make
+
+
+uninstall: luarocks
+	if ! (luarocks list --porcelain ${ROCK_NAME} | grep "^${ROCK_NAME}${TAB}" | grep -q "installed") ; then \
+	  luarocks remove ${ROCK_NAME} --force; \
+	fi;
 
 
 # note: restore the docs to the last committed version
@@ -19,11 +32,10 @@ test: clean_luacov dev
 	busted
 
 
-# test while having the code installed; also tests the rockspec.
-# this will modify the local luarocks installation/tree!
-# TODO: add a forced remove from luarocks, removing ALL versions installed
+# test while having the code installed; also tests the rockspec, but
+# this will modify the local luarocks installation/tree!!
 .PHONY: testinst
-testinst: clean_luacov dev install
+testinst: clean_luacov dev uninstall install
 	busted --lpath="" --cpath=""
 
 
