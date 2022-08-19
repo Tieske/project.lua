@@ -24,6 +24,8 @@ M._DESCRIPTION = "[short-description]"
 --     print("failed at lying; ", err)
 -- end
 function M.do_something(what, force)
+  assert(type(what) == "string" or type(what) == "function", "Expected a string or function")
+
   -- implement
 
 end

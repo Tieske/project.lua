@@ -1,3 +1,5 @@
+# additional Busted options to pass
+BUSTED:=
 
 # SCM rockspec label; scm/cvs/dev
 SCM_LABEL:=$(shell cat *.rockspec | grep "local package_version" | sed "s/ //g" | sed "s/localpackage_version=//g" | sed "s/\"//g")
@@ -5,7 +7,6 @@ ROCK_REV:=$(shell cat *.rockspec | grep "local rockspec_revision" | sed "s/ //g"
 ROCK_NAME:=$(shell cat *.rockspec | grep "local package_name" | sed "s/ //g" | sed "s/localpackage_name=//g" | sed "s/\"//g")
 ROCKSPEC:=${ROCK_NAME}-${SCM_LABEL}-${ROCK_REV}.rockspec
 TAB=$(shell printf "\t")
-
 
 # dev/test dependencies; versions can be pinned. Example: "ldoc 1.4.6"
 DEV_ROCKS = "busted" "luacheck" "ldoc" "luacov"
@@ -29,14 +30,14 @@ clean: clean_luacov clean_luarocks clean_doc
 
 .PHONY: test
 test: clean_luacov dev
-	busted
+	busted ${BUSTED}
 
 
 # test while having the code installed; also tests the rockspec, but
 # this will modify the local luarocks installation/tree!!
 .PHONY: testinst
 testinst: clean_luacov dev uninstall install
-	busted --lpath="" --cpath=""
+	busted --lpath="" --cpath="" ${BUSTED}
 
 
 .PHONY: lint
