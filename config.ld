@@ -1,9 +1,10 @@
-project='Project.lua'
+project='[project-name].lua'
 title='Reference'
-description='A standardized project template for Lua projects'
+description='[short-description]'
 
 format='markdown'
 use_markdown_titles = true
+style="./doc_topics/"
 
 file='./src/'
 topics={'./doc_topics/', './LICENSE', './CHANGELOG.md'}

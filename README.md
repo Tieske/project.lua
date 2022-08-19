@@ -1,6 +1,6 @@
-# project.lua
+# [project-name].lua
 
-A template for new Lua based projects
+[short-description]
 
 ## License and copyright
 
@@ -8,7 +8,7 @@ See [LICENSE](LICENSE)
 
 ## Documentation
 
-See [online documentation](https://Tieske.github.io/project.lua/)
+See [online documentation](https://[github-account-name].github.io/[project-name].lua/)
 
 ## Changelog
 

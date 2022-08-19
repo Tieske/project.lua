@@ -1,7 +1,7 @@
-local package_name = "project"
+local package_name = "[project-name]"
 local package_version = "scm"
 local rockspec_revision = "1"
-local github_account_name = "Tieske"
+local github_account_name = "[github-account-name]"
 local github_repo_name = package_name..".lua"
 
 
@@ -15,12 +15,12 @@ source = {
 }
 
 description = {
-   summary = "Lua project template",
+   summary = "[short-description]",
    detailed = [[
       A template for Lua projects that includes opinionated defaults for
       testing, documentation, CI, etc.
    ]],
-   license = "MIT/X11",
+   license = "MIT",
    homepage = "https://github.com/"..github_account_name.."/"..github_repo_name,
 }
 
@@ -32,7 +32,7 @@ build = {
    type = "builtin",
 
    modules = {
-      ["project.init"] = "src/project/init.lua",
+      ["[project-name].init"] = "src/[project-name]/init.lua",
    },
 
    copy_directories = {

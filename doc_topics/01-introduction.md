@@ -35,6 +35,16 @@ Here's a list of things to do when using this template:
 
 * Go to the template on Github and create a new repo from it, and clone it locally.
 
+* replace all "`[project-name]`" with the project name.
+
+* replace all "`[your-name]`" with your name.
+
+* replace all "`[copyright-year]`" with the proper year.
+
+* replace all "`[short-description]`" with a short, single line, description.
+
+* replace all "`[github-account-name]`" with your Github account name.
+
 * Update "`README.md`"
 
 * Rename "`./src/project`" to "`./src/[package-name]`"
@@ -57,7 +67,7 @@ Here's a list of things to do when using this template:
 
 * In "`.luacov`" replace "`project.*`" with "`[package-name].*`".
 
-* Clear the files in "`./doc_topics/`"
+* Clear the template related content from the files in "`./doc_topics/`"
 
 ## 1.3 Workflows
 
@@ -217,8 +227,9 @@ As input for the documentation there will be;
 - the parsed info from the source files,
 - the manual written documentation in "`./doc_topics/`",
 - any examples; "`*.lua`" files in "`./examples/`"
+- CSS style sheet; "`./doc_topics/ldoc.css`"
 
-It is advised to at least have 1 file in `./doc_topics`, to contain more generic information
+It is advised to at least have 1 markdown file in `./doc_topics`, to contain more generic information
 that could also go in the readme file. Adding it here has the benefit of creating standalone
 documentation that will be distributed with the package (including the readme in the docs would
 add web-links to the docs, and it would not be standalone anymore).
