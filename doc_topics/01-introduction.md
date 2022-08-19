@@ -33,7 +33,14 @@ Here's a list of things to do when using this template:
     - Lua (`project`): "local prj = require '`project`'"
 
 
-* Go to the template on Github and create a new repo from it, and clone it locally.
+* Go to the template on Github and create a new repo from it
+
+* In the new repo settings, go to "Pages", and select branch "`main`" and folder "`/docs`".
+
+* On the main repo page edit the project details; add the "`[short-description]`"
+  and the link to the documentation.
+
+* Clone the repo locally, and open it in an editor.
 
 * replace all "`[project-name]`" with the project name.
 
@@ -45,29 +52,18 @@ Here's a list of things to do when using this template:
 
 * replace all "`[github-account-name]`" with your Github account name.
 
-* Update "`README.md`"
+* Rename "`./src/project`" to "`./src/[project-name]`".
 
-* Rename "`./src/project`" to "`./src/[package-name]`"
+* Rename "`project-scm-1.rockspec`" to "`[project-name]-scm-1`".
 
-* Rename "`project-scm-1.rockspec`" to "`[package-name]-scm-1`".
+* Edit the rockspec; update the `description.detailed` field.
 
-* Edit the rockspec;
+* Clear the template related content from the files in "`./doc_topics/`".
 
-    - update the details at the top,
-    - update the `description.summary` field
-    - update the `description.detailed` field
-    - update the list at `build.modules` by replacing "`project`" with the package-name
+* Run "`make clean`" and "`make docs`".
 
+* Commit all changes, and push to the repo.
 
-* Update the "`config.ld`" file; fields `project`, `title`, and `description`
-
-* Update name and copyright info in "`LICENSE`" and in "`./src/[package-name]/init.lua`"
-
-* In "`CHANGELOG.md`" replace all "`[package-name]`" with the actual name.
-
-* In "`.luacov`" replace "`project.*`" with "`[package-name].*`".
-
-* Clear the template related content from the files in "`./doc_topics/`"
 
 ## 1.3 Workflows
 

@@ -9,7 +9,7 @@
 local M = {}
 M._VERSION = "0.0.1"
 M._COPYRIGHT = "Copyright (c) [copyright-year]-[copyright-year] [your-name]"
-M._DESCRIPTION = "does something"
+M._DESCRIPTION = "[short-description]"
 
 
 --- Does something.
