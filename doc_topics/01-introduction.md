@@ -5,7 +5,7 @@ A project template to remove the tedious repetitive work of creating Lua modules
 ## 1.1 Why?
 
 Creating well structured projects, including CI, documentation, sane defaults
-for testing, linting, etc. Are a lot of work to set up. Even if you've done it
+for testing, linting, etc. are a lot of work to set up. Even if you've done it
 before it requires copying config files, updating all details, removing any
 project specifics and what not.
 
@@ -33,7 +33,8 @@ Here's a list of things to do when using this template:
     - Lua (`project`): "local prj = require '`project`'"
 
 
-* Go to the template on Github and create a new repo from it, set the "`[short-description]`".
+* [Go to the template on Github and create a new repo from it](https://github.com/Tieske/project.lua/generate),
+  set the "`[short-description]`".
 
 * In the new repo settings, go to "Pages", and select branch "`main`" and folder "`/docs`".
 
@@ -54,7 +55,7 @@ The project assumes some specific workflows:
   current development branch, instead of the latest release).
 
 - PR's should include documentation changes and an entry in the
-  `CHANGELOG` [`Changelog.md`](changelog.md.html) file.
+  [`Changelog.md`](changelog.md.html) file.
 
 
 ## 1.4 The Makefile

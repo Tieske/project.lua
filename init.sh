@@ -87,11 +87,17 @@ patch "[github-account-name]" "$GH_ACCOUNT"
 mv src/project "src/$MODULE_NAME"
 mv project-scm-1.rockspec "$MODULE_NAME-scm-1.rockspec"
 
+# cleanup manual
 cat > ./doc_topics/01-introduction.md<< EOF
-# Introduction
+# 1. Introduction
 
-## Paragraph
+## 1.1 Paragraph
 EOF
+
+# cleanup readme
+grep -v "please ignore information below" < README.md > README.new
+rm README.md
+mv README.new README.md
 
 # cleanup
 unset replace_single_file

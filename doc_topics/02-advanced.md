@@ -1,3 +1,3 @@
-# 2. advanced topic
+# 2. Advanced topic
 
 some advanced information
