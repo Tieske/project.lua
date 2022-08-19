@@ -9,34 +9,33 @@ package = package_name
 version = package_version.."-"..rockspec_revision
 
 source = {
-   url = "git+https://github.com/"..github_account_name.."/"..github_repo_name..".git",
-   branch = (package_version == "scm") and "main" or nil,
-   tag = (package_version ~= "scm") and package_version or nil,
+  url = "git+https://github.com/"..github_account_name.."/"..github_repo_name..".git",
+  branch = (package_version == "scm") and "main" or nil,
+  tag = (package_version ~= "scm") and package_version or nil,
 }
 
 description = {
-   summary = "[short-description]",
-   detailed = [[
-      A template for Lua projects that includes opinionated defaults for
-      testing, documentation, CI, etc.
-   ]],
-   license = "MIT",
-   homepage = "https://github.com/"..github_account_name.."/"..github_repo_name,
+  summary = "[short-description]",
+  detailed = [[
+    [short-description]
+  ]],
+  license = "MIT",
+  homepage = "https://github.com/"..github_account_name.."/"..github_repo_name,
 }
 
 dependencies = {
-   "lua >= 5.1, < 5.5",
+  "lua >= 5.1, < 5.5",
 }
 
 build = {
-   type = "builtin",
+  type = "builtin",
 
-   modules = {
-      ["[project-name].init"] = "src/[project-name]/init.lua",
-   },
+  modules = {
+    ["[project-name].init"] = "src/[project-name]/init.lua",
+  },
 
-   copy_directories = {
-      -- can be accessed by `luarocks [rockname] doc` from the commandline
-      "docs",
-   },
+  copy_directories = {
+    -- can be accessed by `luarocks [project-name] doc` from the commandline
+    "docs",
+  },
 }

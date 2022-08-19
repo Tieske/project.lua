@@ -39,27 +39,9 @@ Here's a list of things to do when using this template:
 
 * On the main repo page edit the project details; add the link to the documentation.
 
-* Clone the repo locally, and open it in an editor.
+* Clone the repo locally.
 
-* replace all "`[project-name]`" with the project name.
-
-* replace all "`[your-name]`" with your name.
-
-* replace all "`[copyright-year]`" with the proper year.
-
-* replace all "`[short-description]`" with a short, single line, description.
-
-* replace all "`[github-account-name]`" with your Github account name.
-
-* Rename "`./src/project`" to "`./src/[project-name]`".
-
-* Rename "`project-scm-1.rockspec`" to "`[project-name]-scm-1`".
-
-* Edit the rockspec; update the `description.detailed` field.
-
-* Clear the template related content from the files in "`./doc_topics/`".
-
-* Run "`make clean`" and "`make docs`".
+* Run the interactive `init.sh` script.
 
 * Commit all changes, and push to the repo.
 
@@ -72,7 +54,7 @@ The project assumes some specific workflows:
   current development branch, instead of the latest release).
 
 - PR's should include documentation changes and an entry in the
-  [`Changelog.md`](changelog.md.html) file.
+  `CHANGELOG` [`Changelog.md`](changelog.md.html) file.
 
 
 ## 1.4 The Makefile
