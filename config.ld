@@ -1,5 +1,5 @@
-project='[project-name].lua'
-title='Reference'
+project='[repo-name]'
+title='[project-name] docs'
 description='[short-description]'
 
 format='markdown'

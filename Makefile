@@ -18,7 +18,7 @@ install: luarocks
 
 
 uninstall: luarocks
-	if ! (luarocks list --porcelain ${ROCK_NAME} | grep "^${ROCK_NAME}${TAB}" | grep -q "installed") ; then \
+	if (luarocks list --porcelain ${ROCK_NAME} | grep "^${ROCK_NAME}${TAB}" | grep -q "installed") ; then \
 	  luarocks remove ${ROCK_NAME} --force; \
 	fi;
 

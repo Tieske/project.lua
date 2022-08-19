@@ -1,7 +1,9 @@
 describe("description", function()
 
-  pending("replace this file with your own tests", function()
+  local mymod = require "[project-name]"
 
+  it("replace this file with your own tests", function()
+    mymod.do_something("tell a lie!", true)
   end)
 
 end)
