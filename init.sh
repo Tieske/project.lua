@@ -3,10 +3,18 @@
 REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
 GH_ACCOUNT=$(git remote -v | grep "(fetch)" | sed "s/ (fetch)//" | sed "s/^.*github.com\///" | sed "s/\/.*$//")
 USER_NAME=$(git config user.name)
+# shellcheck disable=SC2001
 MODULE_NAME=$(echo "$REPO_NAME" | sed "s/\.lua$//")
 YEAR=$(date +%Y)
-SHORT_DESC="short description"
 
+# fetch description from github api
+SHORT_DESC=$(curl -s -X GET https://api.github.com/repos/$GH_ACCOUNT/$REPO_NAME | grep '"description":')
+SHORT_DESC=$(echo "$SHORT_DESC" | sed "s/^.*\"description\"//" | sed "s/^[^\"]*\"//" | sed "s/\",.*$//")
+if [ "$SHORT_DESC" == "" ] ; then
+  SHORT_DESC="short description"
+fi
+
+echo ""
 echo "This script will update the template repo for first use."
 echo ""
 
@@ -47,9 +55,11 @@ done
 # find/replace a single file
 function replace_single_file {
     local FILENAME="$1"
+    local ESCAPED_FIND
+    local ESCAPED_REPLACE
     # escaping see: https://stackoverflow.com/questions/407523/escape-a-string-for-a-sed-replace-pattern
-    local ESCAPED_FIND=$(printf '%s\n' "$FIND_VALUE" | sed -e 's/[]\/$*.^[]/\\&/g')
-    local ESCAPED_REPLACE=$(printf '%s\n' "$REPLACE_VALUE" | sed -e 's/[\/&]/\\&/g')
+    ESCAPED_FIND=$(printf '%s\n' "$FIND_VALUE" | sed -e 's/[]\/$*.^[]/\\&/g')
+    ESCAPED_REPLACE=$(printf '%s\n' "$REPLACE_VALUE" | sed -e 's/[\/&]/\\&/g')
 
     if ! [ "${FILENAME:0:7}" == "./.git/" ] ; then
         # see https://stackoverflow.com/questions/19456518/error-when-using-sed-with-find-command-on-os-x-invalid-command-code
@@ -70,19 +80,19 @@ function patch {
 
 # Making the changes from here onwards
 if [ "$REPO_NAME" == "project.lua" ] ; then
-    echo "cannot run this script (since it is destructive) on the template repo"
+    echo "cannot run this script (since it is destructive) on the template repo itself"
     exit 1
 fi
 
 # make sure we have tools available
 make dev
 
-patch "[project-name]" "$MODULE_NAME"
 patch "[repo-name]" "$REPO_NAME"
-patch "[your-name]" "$USER_NAME"
-patch "[copyright-year]" "$YEAR"
+patch "[module-name]" "$MODULE_NAME"
 patch "[short-description]" "$SHORT_DESC"
 patch "[github-account-name]" "$GH_ACCOUNT"
+patch "[your-name]" "$USER_NAME"
+patch "[copyright-year]" "$YEAR"
 
 mv src/project "src/$MODULE_NAME"
 mv project-scm-1.rockspec "$MODULE_NAME-scm-1.rockspec"
