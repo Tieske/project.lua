@@ -3,7 +3,7 @@ name: "Unix build"
 on: [push, pull_request]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-20.04
 
     strategy:
