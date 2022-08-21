@@ -1,5 +1,5 @@
 modules = {
-   ["[project-name].*"] = "src"
+   ["[module-name].*"] = "src"
 }
 
 runreport = true

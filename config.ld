@@ -1,5 +1,5 @@
 project='[repo-name]'
-title='[project-name] docs'
+title='[module-name] docs'
 description='[short-description]'
 
 format='markdown'

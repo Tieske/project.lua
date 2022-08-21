@@ -1,4 +1,4 @@
-local package_name = "[project-name]"
+local package_name = "[module-name]"
 local package_version = "scm"
 local rockspec_revision = "1"
 local github_account_name = "[github-account-name]"
@@ -31,11 +31,11 @@ build = {
   type = "builtin",
 
   modules = {
-    ["[project-name].init"] = "src/[project-name]/init.lua",
+    ["[module-name].init"] = "src/[module-name]/init.lua",
   },
 
   copy_directories = {
-    -- can be accessed by `luarocks [project-name] doc` from the commandline
+    -- can be accessed by `luarocks [module-name] doc` from the commandline
     "docs",
   },
 }
