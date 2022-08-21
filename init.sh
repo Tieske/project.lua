@@ -7,8 +7,9 @@ USER_NAME=$(git config user.name)
 MODULE_NAME=$(echo "$REPO_NAME" | sed "s/\.lua$//")
 YEAR=$(date +%Y)
 
-# fetch description from github api
-SHORT_DESC=$(curl -s -X GET https://api.github.com/repos/$GH_ACCOUNT/$REPO_NAME | grep '"description":')
+# fetch description from github api, poorman's json parsing, but don't want
+# another dependency (eg. jq).
+SHORT_DESC=$(curl -s -X GET https://api.github.com/repos/$GH_ACCOUNT/$REPO_NAME | grep '"description":' | grep -v 'template' | sed -n '1p')
 SHORT_DESC=$(echo "$SHORT_DESC" | sed "s/^.*\"description\"//" | sed "s/^[^\"]*\"//" | sed "s/\",.*$//")
 if [ "$SHORT_DESC" == "" ] ; then
   SHORT_DESC="short description"
