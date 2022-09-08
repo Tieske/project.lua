@@ -4,7 +4,7 @@
 --
 -- @copyright Copyright (c) [copyright-year]-[copyright-year] [your-name]
 -- @author [your-name]
--- @license MIT, see `LICENSE`.
+-- @license MIT, see `LICENSE.md`.
 
 local M = {}
 M._VERSION = "0.0.1"

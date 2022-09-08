@@ -9,7 +9,7 @@ This is a template for new Lua projects. It features document generation, testin
 
 ## License and copyright
 
-See [LICENSE](LICENSE)
+See [LICENSE.md](LICENSE.md)
 
 ## Documentation
 
