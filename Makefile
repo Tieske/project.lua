@@ -11,7 +11,26 @@ TAB=$(shell printf "\t")
 # dev/test dependencies; versions can be pinned. Example: "ldoc 1.4.6"
 DEV_ROCKS = "busted" "luacheck" "ldoc" "luacov"
 
-all: test lint doc
+
+help:
+	@echo "Available make targets for ${ROCK_NAME}:"
+	@echo ""
+	@echo "install:     uses LuaRocks to install ${ROCK_NAME}"
+	@echo "uninstall:   uninstalls ALL versions of ${ROCK_NAME} using LuaRocks with"
+	@echo "             the '--force' flag"
+	@echo "clean:       removes LuaCov output, packed rocks, and restores docs to the"
+	@echo "             last commited version"
+	@echo "test:        runs the test suite using Busted"
+	@echo "testinst:    installs ${ROCK_NAME} and runs tests using the installed version"
+	@echo "             (this modifies the local installation, but also tests the"
+	@echo "             .rockspec file). This is best used when testing in CI."
+	@echo "lint:        will validate all 'rockspec' files using LuaRocks, and the"
+	@echo "             '.lua' files with LuaCheck"
+	@echo "doc/docs:    regenerates the documentation using LDoc"
+	@echo "dev:         installs the development dependencies (Busted, LuaCheck, etc.)"
+	@echo "help:        displays this list of make targets"
+	@echo ""
+
 
 install: luarocks
 	luarocks make
@@ -50,7 +69,7 @@ lint: dev
 
 
 .PHONY: doc
-doc: clean_doc
+doc: clean_doc dev
 	mkdir -p ./docs
 	ldoc .
 
