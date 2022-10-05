@@ -62,7 +62,7 @@ The project assumes some specific workflows:
 
 The Makefile has a number of targets defined:
 
-- `all`: (the default) will test, lint and build the docs
+- `help`: (the default) will display the available Make targets
 - `install`: will use LuaRocks to install the package from the currently checked out code
 - `uninstall`: will use LuaRocks to uninstall (all versions of) the package
 - `clean`: will the clean the repo, remove generated artifacts and restore the docs to
