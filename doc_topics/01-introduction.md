@@ -18,7 +18,7 @@ This template is **very** opinionated. It assumes a.o.;
 - Github for code repositories
 - Github Actions for CI
 
-The reasons behind many choices and settings can [be found below](#1_5_Choices_explained).
+The reasons behind many choices and settings can be [found below](#1_5_Choices_explained).
 
 ## 1.2 Getting started
 
@@ -55,22 +55,22 @@ The project assumes some specific workflows:
   current development branch, instead of the latest release).
 
 - PR's should include documentation changes and an entry in the
-  [`Changelog.md`](changelog.md.html) file.
+  [`CHANGELOG.md`](changelog.md.html) file.
 
 
 ## 1.4 The Makefile
 
 The Makefile has a number of targets defined:
 
-- `help`: (the default) will display the available Make targets
+- `help`: displays the available make-targets (this is the default target)
 - `install`: will use LuaRocks to install the package from the currently checked out code
 - `uninstall`: will use LuaRocks to uninstall (all versions of) the package
 - `clean`: will the clean the repo, remove generated artifacts and restore the docs to
   the last committed version (docs should be rendered only when releasing).
 - `test`: will run the test suite using Busted, and generate the LuaCov coverage report.
-- `testinst`: the same as `test`, except that it will first uninstall and install the module,
-   and it will disable the local source tree. This provides a better test (since it includes
-   the rockspec install), but will change the locally installed LuaRocks tree.
+- `testinst`: the same as `test`, except that it installs first and runs tests using the
+  installed version (this modifies the local installation, but also tests the .rockspec
+  file). This is best used when testing in CI.
 - `lint`: will lint the Lua code files (using LuaCheck) as well as the rockspecs (using
   LuaRocks).
 - `doc`: will re-render the docs (will remove the existing docs first, so use this over the
@@ -126,7 +126,7 @@ and used by the Lua distributions them selves.
 
 Update the `LICENSE` file if the default MIT license doesn't suit you. Make sure
 to use a format that is recognized by Github, such that when users click the
-`LICENSE` file, they [get a nice header](https://github.com/Tieske/project.lua/blob/main/LICENSE)
+`LICENSE` file, they [get a nice header](https://github.com/Tieske/project.lua/blob/main/LICENSE.md)
 at the top explaining the basics of the license.
 
 Make sure to also update the license details in the code files, and in the `.rockspec` files.

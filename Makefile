@@ -12,12 +12,16 @@ TAB=$(shell printf "\t")
 DEV_ROCKS = "busted" "luacheck" "ldoc" "luacov"
 
 
+target_not_specified: help
+	@exit 1
+
+
 help:
 	@echo "Available make targets for ${ROCK_NAME}:"
 	@echo ""
 	@echo "install:     uses LuaRocks to install ${ROCK_NAME}"
-	@echo "uninstall:   uninstalls ALL versions of ${ROCK_NAME} using LuaRocks with"
-	@echo "             the '--force' flag"
+	@echo "uninstall:   uninstalls ALL versions of ${ROCK_NAME} (using LuaRocks with"
+	@echo "             the '--force' flag)"
 	@echo "clean:       removes LuaCov output, packed rocks, and restores docs to the"
 	@echo "             last commited version"
 	@echo "test:        runs the test suite using Busted"
@@ -71,7 +75,7 @@ lint: dev
 .PHONY: doc
 doc: clean_doc dev
 	mkdir -p ./docs
-	ldoc .
+	ldoc . --date=""
 
 
 .PHONY: docs
