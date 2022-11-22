@@ -31,6 +31,7 @@ help:
 	@echo "lint:        will validate all 'rockspec' files using LuaRocks, and the"
 	@echo "             '.lua' files with LuaCheck"
 	@echo "doc/docs:    regenerates the documentation using LDoc"
+	@echo "deps:        installs the module dependencies"
 	@echo "dev:         installs the development dependencies (Busted, LuaCheck, etc.)"
 	@echo "help:        displays this list of make targets"
 	@echo ""
@@ -82,8 +83,13 @@ doc: clean_doc dev
 docs: doc
 
 
+.PHONY: deps
+deps: luarocks
+	luarocks install $(ROCKSPEC) --deps-only
+
+
 .PHONY: dev
-dev: luarocks
+dev: luarocks deps
 	@for rock in $(DEV_ROCKS) ; do \
 	  (luarocks list --porcelain $$rock | grep -q "installed") || (luarocks install $$rock || exit 1); \
 	done;

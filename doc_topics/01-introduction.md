@@ -75,7 +75,8 @@ The Makefile has a number of targets defined:
   LuaRocks).
 - `doc`: will re-render the docs (will remove the existing docs first, so use this over the
   `ldoc .` command to prevent orphaned files in the docs tree).
-- `dev` will install the required development dependencies using LuaRocks (busted, luacheck,
+- `deps`: installs the module dependencies
+- `dev`: installs the required development dependencies using LuaRocks (busted, luacheck,
   ldoc, and luacov).
 
 
