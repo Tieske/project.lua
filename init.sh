@@ -85,9 +85,6 @@ if [ "$REPO_NAME" == "project.lua" ] ; then
     exit 1
 fi
 
-# make sure we have tools available
-make dev
-
 patch "[repo-name]" "$REPO_NAME"
 patch "[module-name]" "$MODULE_NAME"
 patch "[short-description]" "$SHORT_DESC"
@@ -97,6 +94,10 @@ patch "[copyright-year]" "$YEAR"
 
 mv src/project "src/$MODULE_NAME"
 mv project-scm-1.rockspec "$MODULE_NAME-scm-1.rockspec"
+mv bin/project.lua "bin/$MODULE_NAME.lua"
+
+# make sure we have tools available
+make dev
 
 # cleanup manual
 cat > ./doc_topics/01-introduction.md<< EOF

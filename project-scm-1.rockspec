@@ -34,6 +34,12 @@ build = {
     ["[module-name].init"] = "src/[module-name]/init.lua",
   },
 
+  install = {
+    bin = {
+      ["[module-name]"] = "bin/[module-name].lua",
+    }
+  },
+
   copy_directories = {
     -- can be accessed by `luarocks [module-name] doc` from the commandline
     "docs",
