@@ -16,6 +16,6 @@ See [LICENSE.md](LICENSE.md)
 
 See [online documentation](https://[github-account-name].github.io/[repo-name]/)
 
-## Changelog
+## Changelog & Versioning
 
 See [CHANGELOG.md](CHANGELOG.md)
