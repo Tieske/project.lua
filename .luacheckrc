@@ -1,6 +1,6 @@
 unused_args     = false
 redefined       = false
-max_line_length = false
+max_line_length = 100
 
 globals = {
 --    "ngx",

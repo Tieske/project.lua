@@ -1,3 +1,6 @@
+# Claude Code
+.claude/
+
 # Compiled Lua sources
 luac.out
 
