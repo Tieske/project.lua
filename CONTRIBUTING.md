@@ -299,6 +299,27 @@ local function check_name(name)
 end
 ```
 
+Prefer if-then-error over assertions:
+
+```lua
+-- bad
+local function some_func(name)
+  -- string concatenation happens on good- and failure-case
+  assert(type(name) == "string", "expected name to be a string, got " .. type(name))
+
+  -- do work
+end
+
+-- good
+local function some_func(name)
+  if type(name) ~= "string" then
+    error("expected name to be a string, got " .. type(name))
+  end
+
+  -- do work
+end
+```
+
 Follow the return values conventions: Lua supports multiple return values, and
 by convention, handles recoverable errors by returning `nil` plus a `string`
 describing the error:
