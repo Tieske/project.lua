@@ -325,7 +325,7 @@ local function check()
 end
 ```
 
-When a function call makes a line go over 80 characters, **do** align the
+When a function call makes a line go over 100 characters, **do** align the
 overflowing arguments to the first one:
 
 ```lua
@@ -447,7 +447,7 @@ end
 local foo = bar and "hello" or "world"
 ```
 
-When an expression makes a line longer than 80 characters, **do** align the
+When an expression makes a line longer than 100 characters, **do** align the
 expression on the following lines:
 
 ```lua
