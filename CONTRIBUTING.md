@@ -123,13 +123,15 @@ the recommended style are welcome!**
 ### Modules
 
 When writing a module (a Lua file), separate logical blocks of code with
-**two** blank lines:
+**three** blank lines:
 
 ```lua
 local foo = require "some_module.foo"
 
 
+
 local _M = {}
+
 
 
 function _M.bar()
@@ -137,9 +139,11 @@ function _M.bar()
 end
 
 
+
 function _M.baz()
   -- do thing...
 end
+
 
 
 return _M
