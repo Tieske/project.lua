@@ -33,7 +33,13 @@ describe("some block", function()
   local my_module    -- only declare here, no values!
 
   before_each(function()
+    _G._TEST = true -- set a global test flag
     my_module = require "my.module.something"   -- initialize here
+  end)
+
+
+  after_each(function()
+    _G._TEST = nil
   end)
 
 
@@ -48,6 +54,29 @@ describe("some block", function()
   end)
 
 end)
+```
+
+## exporting internal/private elements to facilitate testing
+
+Modules can export elements if the global _G._TEST flag is set. This makes it easier to
+test private functions, or validate internal state during testing.
+
+```lua
+local tracking_table = {}
+
+local M = {
+  do_something = function(self, ...)
+     -- implementation goes here
+  end,
+}
+
+if _G._TEST then
+  -- change name such that code using `M.tracking_table` instead of plain `tracking_table`
+  -- doesn't accidentally work in test, but fails in prod. Prefix with "_".
+  M._tracking_table = tracking_table
+end
+
+return M
 ```
 
 ## Code style
