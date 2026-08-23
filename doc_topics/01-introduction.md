@@ -33,12 +33,11 @@ Here's a list of things to do when using this template:
     - Lua (`project`): "local prj = require '`project`'"
 
 
-* [Go to the template on Github and create a new repo from it](https://github.com/Tieske/project.lua/generate),
-  set the "`[short-description]`".
+* [Go to the template on Github and create a new repo from it](https://github.com/Tieske/project.lua/generate)
 
 * In the new repo settings, go to "Pages", and select branch "`main`" and folder "`/docs`".
 
-* On the main repo page edit the project details; add the link to the documentation.
+* On the main repo page edit the project details; set the "short-description" and add the link to the documentation.
 
 * Clone the repo locally.
 
