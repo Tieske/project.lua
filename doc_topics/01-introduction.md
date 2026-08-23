@@ -42,7 +42,7 @@ Here's a list of things to do when using this template:
 
 * Clone the repo locally.
 
-* Run the interactive `init.sh` script.
+* Run `make` and follow the interactive prompts to initialize the repo.
 
 * Commit all changes, and push to the repo.
 

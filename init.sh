@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# No need to run this script manually; just run `make` and it will be
+# invoked automatically on first use, and then deleted.
+
 REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
 GH_ACCOUNT=$(git remote -v | grep "(fetch)" | sed "s/ (fetch)//" | sed "s/^.*github.com\///" | sed "s/\/.*$//")
 USER_NAME=$(git config user.name)
