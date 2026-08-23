@@ -12,8 +12,18 @@ TAB=$(shell printf "\t")
 DEV_ROCKS = "busted" "luacheck" "ldoc" "luacov"
 
 
-target_not_specified: help
+target_not_specified:
+ifneq (,$(wildcard ./init.sh))
+	@$(MAKE) init
+else
+	@$(MAKE) help
+endif
 	@exit 1
+
+
+.PHONY: init
+init:
+	@if [ -f ./init.sh ]; then ./init.sh; else echo "Already initialized. Run 'make help' for available targets."; fi
 
 
 help:
